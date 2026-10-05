@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Y2K - 網頁程式課作品集入口網站</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Orbitron & Share Tech Mono & Noto Sans TC -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Cyberpunk Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --neon-pink: #ff007f;
+            --neon-cyan: #00f3ff;
+            --neon-purple: #9d00ff;
+            --neon-yellow: #ffe600;
+            --bg-dark: #07070f;
+            --glass-bg: rgba(18, 18, 32, 0.65);
+            --glass-border: rgba(0, 243, 255, 0.2);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            font-family: 'Noto Sans TC', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        .font-cyber {
+            font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
+        }
+
+        .font-mono-tech {
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        /* Y2K Dynamic Neon Grid Background */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                linear-gradient(to right, rgba(0, 243, 255, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 0, 127, 0.07) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: perspective(600px) rotateX(60deg) translateY(-100px) translateZ(-200px);
+            animation: grid-move 20s linear infinite;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        @keyframes grid-move {
+            0% { transform: perspective(600px) rotateX(60deg) translateY(0) translateZ(-200px); }
+            100% { transform: perspective(600px) rotateX(60deg) translateY(50px) translateZ(-200px); }
+        }
+
+        /* Scanline Overlay Effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.25) 50%
+            );
+            background-size: 100% 4px;
+            z-index: 99;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* Ambient Glow Orbs */
+        .glow-orb-1 {
+            position: fixed;
+            top: 10%;
+            left: 15%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(157, 0, 255, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(50px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glow-orb-2 {
+            position: fixed;
+            bottom: 15%;
+            right: 10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 243, 255, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Cyberpunk Glassmorphism Card Style */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Unlocked Card Cyber Glow & Hover */
+        .card-unlocked {
+            border: 1px solid rgba(0, 243, 255, 0.4);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
+        }
+
+        .card-unlocked::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.25), transparent);
+            transition: 0.5s;
+        }
+
+        .card-unlocked:hover::before {
+            left: 100%;
+        }
+
+        .card-unlocked:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.4), 0 0 15px var(--neon-pink);
+        }
+
+        /* Locked Card Styling */
+        .card-locked {
+            background: rgba(15, 15, 25, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            opacity: 0.65;
+            cursor: not-allowed;
+            filter: grayscale(80%);
+        }
+
+        .card-locked:hover {
+            border-color: rgba(255, 0, 127, 0.5);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Avatar Neon Rotating Border */
+        .avatar-container {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto;
+        }
+
+        .avatar-ring {
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--neon-cyan), var(--neon-pink), var(--neon-purple), var(--neon-cyan));
+            animation: spin-ring 4s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes spin-ring {
+            100% { transform: rotate(360deg); }
+        }
+
+        .avatar-img-wrap {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            z-index: 2;
+            background-color: #0d0d1a;
+            border: 3px solid #07070f;
+        }
+
+        /* Glitch Animation for Title */
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.8), 0 0 20px rgba(255, 0, 127, 0.5);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #07070f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-purple);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan);
+        }
+
+        /* Cyber Toast Notification Styling */
+        #toast {
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform: translateY(100px) scale(0.8);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #toast.show {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-100">
+
+    <!-- Background Grid & Scanlines -->
+    <div class="cyber-grid"></div>
+    <div class="scanlines"></div>
+    <div class="glow-orb-1"></div>
+    <div class="glow-orb-2"></div>
+
+    <!-- Main Container -->
+    <main class="container mx-auto px-4 py-8 flex-grow max-w-7xl relative z-10">
+        
+        <!-- HEADER / USER PROFILE SECTION -->
+        <header class="glass-card rounded-2xl p-6 md:p-8 mb-10 text-center relative border-t-2 border-t-cyan-400">
+            <!-- Decorative Cyberpunk Elements -->
+            <div class="absolute top-3 left-4 font-mono-tech text-xs text-cyan-400 opacity-70 tracking-widest flex items-center gap-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                SYSTEM: ONLINE // YEAR 2026
+            </div>
+            <div class="absolute top-3 right-4 font-mono-tech text-xs text-pink-500 opacity-70 tracking-widest hidden sm:block">
+                SYS.VER 3.0.16
+            </div>
+
+            <!-- Avatar Container -->
+            <div class="mt-4 mb-5">
+                <div class="avatar-container">
+                    <div class="avatar-ring"></div>
+                    <div class="avatar-img-wrap">
+                        <!-- Stylized Cyber Avatar SVG / Image Placeholder -->
+                        <svg class="w-full h-full p-2 text-cyan-400 bg-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2a5 5 0 0 1 5 5v2a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5z"></path>
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="1" fill="currentColor"></circle>
+                            <path d="M6 11l-2 2 2 2M18 11l2 2-2 2" stroke="#ff007f" stroke-width="2"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Name and Title -->
+            <h1 class="text-3xl md:text-5xl font-black font-cyber text-white tracking-wider mb-2 glitch-text">
+                ALEX <span class="text-pink-500 text-2xl md:text-4xl">//</span> 網頁開發闖關者
+            </h1>
+            <p class="font-mono-tech text-cyan-300 text-sm md:text-base mb-6 tracking-wide">
+                <i class="fa-solid fa-code text-pink-400 mr-2"></i>網頁程式設計作品集入口網站 (Portfolio Hub)
+            </p>
+
+            <!-- Level & Quest Progress Bar -->
+            <div class="max-w-xl mx-auto bg-slate-950/80 p-4 rounded-xl border border-purple-500/30">
+                <div class="flex justify-between items-center font-mono-tech text-xs md:text-sm mb-2">
+                    <span class="text-cyan-400 flex items-center gap-1">
+                        <i class="fa-solid fa-trophy text-yellow-400"></i> 闖關進度 LEVEL 02
+                    </span>
+                    <span class="text-pink-400 font-bold">2 / 16 (12.5%) COMPLETE</span>
+                </div>
+                <!-- Progress Bar Outer -->
+                <div class="w-full h-4 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-cyan-500/30 relative">
+                    <!-- Glowing Fill -->
+                    <div class="h-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-full transition-all duration-1000 shadow-[0_0_12px_rgba(255,0,127,0.8)] relative" style="width: 12.5%;">
+                        <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- QUEST STAGES GRID -->
+        <section class="mb-12">
+            <div class="flex justify-between items-center mb-6 px-1">
+                <h2 class="text-xl md:text-2xl font-bold font-cyber text-cyan-300 flex items-center gap-2">
+                    <i class="fa-solid fa-gamepad text-pink-500"></i> 課程關卡任務選單
+                </h2>
+                <span class="font-mono-tech text-xs text-gray-400">SELECT A STAGE TO LAUNCH</span>
+            </div>
+
+            <!-- Responsive Grid: Desktop 4 columns, Tablet 2 columns, Mobile 1 column -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+
+                <!-- STAGE 01 (UNLOCKED) -->
+                <a href="w1/index.html" class="glass-card card-unlocked rounded-xl p-5 flex flex-col justify-between group cursor-pointer transition-all">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-cyan-950/80 text-cyan-400 border border-cyan-500/40">
+                                STAGE 01
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 flex items-center gap-1">
+                                <i class="fa-solid fa-check text-[10px]"></i> CLEAR
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors mb-2">
+                            Week 1 - 數位名片
+                        </h3>
+                        <p class="text-xs text-gray-400 mb-4 line-clamp-2">
+                            使用 HTML & CSS 打造個人的 Cyberpunk 個人風格資訊卡。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-700/50 flex items-center justify-between text-xs font-mono-tech text-cyan-400 group-hover:translate-x-1 transition-transform">
+                        <span>開啟任務檔</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- STAGE 02 (UNLOCKED) -->
+                <a href="w2/index.html" class="glass-card card-unlocked rounded-xl p-5 flex flex-col justify-between group cursor-pointer transition-all">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-cyan-950/80 text-cyan-400 border border-cyan-500/40">
+                                STAGE 02
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 flex items-center gap-1">
+                                <i class="fa-solid fa-check text-[10px]"></i> CLEAR
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors mb-2">
+                            Week 2 - 今天吃甚麼?
+                        </h3>
+                        <p class="text-xs text-gray-400 mb-4 line-clamp-2">
+                            互動式美食隨機抽取器與微型應用程式。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-700/50 flex items-center justify-between text-xs font-mono-tech text-cyan-400 group-hover:translate-x-1 transition-transform">
+                        <span>開啟任務檔</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- STAGE 03 (LOCKED) -->
+                <div onclick="showLockedToast('Week 3')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 03
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 3 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- STAGE 04 (LOCKED) -->
+                <div onclick="showLockedToast('Week 4')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 04
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 4 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- STAGE 05 (LOCKED) -->
+                <div onclick="showLockedToast('Week 5')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 05
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 5 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- STAGE 06 (LOCKED) -->
+                <div onclick="showLockedToast('Week 6')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 06
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 6 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- STAGE 07 (LOCKED) -->
+                <div onclick="showLockedToast('Week 7')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 07
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 7 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- STAGE 08 (LOCKED) -->
+                <div onclick="showLockedToast('Week 8')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 08
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 8 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- STAGE 09 (LOCKED) -->
+                <div onclick="showLockedToast('Week 9')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 09
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 9 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- STAGE 10 (LOCKED) -->
+                <div onclick="showLockedToast('Week 10')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 10
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 10 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- STAGE 11 (LOCKED) -->
+                <div onclick="showLockedToast('Week 11')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 11
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 11 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- STAGE 12 (LOCKED) -->
+                <div onclick="showLockedToast('Week 12')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 12
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 12 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- STAGE 13 (LOCKED) -->
+                <div onclick="showLockedToast('Week 13')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 13
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 13 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- STAGE 14 (LOCKED) -->
+                <div onclick="showLockedToast('Week 14')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 14
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 14 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- STAGE 15 (LOCKED) -->
+                <div onclick="showLockedToast('Week 15')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 15
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 15 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- STAGE 16 (LOCKED) -->
+                <div onclick="showLockedToast('Week 16')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                                STAGE 16
+                            </span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
+                                🔒 LOCKED
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
+                            Week 16 - 未解鎖 🔒
+                        </h3>
+                        <p class="text-xs text-gray-600 mb-4">
+                            最終大魔王任務，敬請期待課程解鎖！
+                        </p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
+                        <span>未授權存取</span>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-6 border-t border-slate-800/80 relative z-10 font-mono-tech text-xs text-gray-500">
+        <p>© 2026 CYBERPUNK PORTFOLIO PORTAL | ALL RIGHTS RESERVED.</p>
+        <p class="mt-1 text-gray-600">網頁程式設計課程專用範本卡牌入口</p>
+    </footer>
+
+    <!-- CYBERPUNK TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 max-w-sm">
+        <div class="bg-slate-950/95 border-2 border-pink-500 text-pink-200 p-4 rounded-xl shadow-[0_0_25px_rgba(255,0,127,0.5)] flex items-start gap-3 backdrop-blur-md">
+            <div class="text-pink-500 text-2xl animate-bounce">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+                <h4 class="font-bold text-sm text-pink-400 font-cyber flex items-center gap-2">
+                    ACCESS DENIED / 警告
+                </h4>
+                <p id="toast-message" class="text-xs mt-1 text-gray-300">
+                    ⚠️ 該關卡尚未解鎖！請等待課程進度與前置任務完畢。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sci-Fi Sound Effects using Web Audio API
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function playSciFiBeep(freq = 440, type = 'sine', duration = 0.15) {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new AudioContext();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                // Ignore audio context autoplay restrictions gracefully
+            }
+        }
+
+        // Show Cyber Toast Notification for locked stages
+        let toastTimeout = null;
+        function showLockedToast(stageName) {
+            playSciFiBeep(220, 'sawtooth', 0.25); // Warning tone
+            
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            
+            toastMsg.innerText = `⚠️ [${stageName}] 該關卡尚未解鎖！請等待課程進度與前置任務完畢。`;
+            
+            toast.classList.add('show');
+            
+            if (toastTimeout) {
+                clearTimeout(toastTimeout);
+            }
+            
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Sound effect on hover for unlocked cards
+        document.querySelectorAll('.card-unlocked').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                playSciFiBeep(880, 'sine', 0.08);
+            });
+        });
+
+        // Interactive 3D tilt effect on mousemove for unlocked cards
+        document.querySelectorAll('.card-unlocked').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -10;
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale(1.02)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
