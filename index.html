@@ -361,29 +361,30 @@
                     </div>
                 </a>
 
-                <!-- STAGE 03 (LOCKED) -->
-                <div onclick="showLockedToast('Week 3')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
+                <!-- STAGE 03 (UNLOCKED) -->
+                <a href="w3/index.html" class="glass-card card-unlocked rounded-xl p-5 flex flex-col justify-between group cursor-pointer transition-all">
                     <div>
                         <div class="flex justify-between items-start mb-3">
-                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-slate-900 text-gray-500 border border-slate-800">
+                            <span class="font-mono-tech text-xs font-bold px-2.5 py-1 rounded-md bg-cyan-950/80 text-cyan-400 border border-cyan-500/40">
                                 STAGE 03
                             </span>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-slate-800/80 text-gray-400 border border-slate-700">
-                                🔒 LOCKED
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold font-mono-tech bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 flex items-center gap-1">
+                                <i class="fa-solid fa-check text-[10px]"></i> CLEAR
                             </span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-400 group-hover:text-pink-400 transition-colors mb-2">
-                            Week 3 - 未解鎖 🔒
+                        <h3 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors mb-2">
+                            Week 3 - css flexbox 與 grid 佈局
                         </h3>
-                        <p class="text-xs text-gray-600 mb-4">
-                            任務資料已加密，需完成前置關卡以開啟檔案。
+                        <p class="text-xs text-gray-400 mb-4 line-clamp-2">
+                            
                         </p>
                     </div>
-                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono-tech text-gray-500">
-                        <span>未授權存取</span>
-                        <i class="fa-solid fa-lock"></i>
+                    <div class="pt-3 border-t border-slate-700/50 flex items-center justify-between text-xs font-mono-tech text-cyan-400 group-hover:translate-x-1 transition-transform">
+                        <span>開啟任務檔</span>
+                        <i class="fa-solid fa-arrow-right"></i>
                     </div>
-                </div>
+                </a>
+
 
                 <!-- STAGE 04 (LOCKED) -->
                 <div onclick="showLockedToast('Week 4')" class="glass-card card-locked rounded-xl p-5 flex flex-col justify-between group cursor-not-allowed">
