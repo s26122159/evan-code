@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人數位名片</title>
+    
+    <!-- 所有的 CSS 樣式寫在 <style> 標籤內 -->
+    <style>
+        /* 全局基礎設定 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        /* 背景與整體居中 */
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* 卡片主體 */
+        .card {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 380px;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        /* 鼠標懸停時卡片稍微浮起 */
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 大頭照樣式 */
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 4px solid #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 姓名 */
+        .name {
+            font-size: 24px;
+            color: #333333;
+            margin-bottom: 6px;
+        }
+
+        /* 職稱 */
+        .title {
+            font-size: 14px;
+            color: #0066ff; /* 主題顏色 */
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        /* 個人簡介 */
+        .bio {
+            font-size: 14px;
+            color: #666666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* 按鈕區域 */
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* 按鈕通用樣式 */
+        .btn {
+            display: block;
+            padding: 12px 20px;
+            background-color: #333333;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        /* 第一種按鈕（主要） Hover 效果 */
+        .btn:hover {
+            background-color: #0066ff;
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+        }
+
+        /* 第二種按鈕（次要，外框線形式） */
+        .btn-secondary {
+            background-color: transparent;
+            color: #333333;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f5f5f5;
+            color: #333333;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- 大頭照（可替換 src 裡的圖片網址） -->
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="大頭照" class="avatar">
+        
+        <!-- 個人基本資料 -->
+        <h1 class="name">你的名字</h1>
+        <p class="title">UI/UX 餐旅與烘焙</p>
+        <p class="bio">你好！我是一名熱愛烘焙的，專注於創造美觀且易用的視覺體驗。</p>
+        
+        <!-- 社交連結按鈕 -->
+        <div class="social-links">
+            <!-- 將 # 替換成你的實際網頁或作品集連結 -->
+            <a href="#" class="btn" target="_blank">個人作品集</a>
+            <a href="#" class="btn" target="_blank">Instagram</a>
+            <a href="#" class="btn btn-secondary" target="_blank">寄信給我</a>
+        </div>
+    </div>
+
+</body>
+</html>
