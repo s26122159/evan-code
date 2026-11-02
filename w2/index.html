@@ -1,1 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今天吃什麼？隨機抽籤機</title>
+    <!-- Google Fonts 圓潤可愛字體 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- 引入外部 CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- 引入 Canvas Confetti 彩帶效果套件 -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- 引入外部 JavaScript (加上 defer) -->
+    <script src="script.js" defer></script>
+</head>
+<body>
 
+    <div class="background-decorations">
+        <span class="bubble b1">🍓</span>
+        <span class="bubble b2">🧋</span>
+        <span class="bubble b3">🍰</span>
+        <span class="bubble b4">🎀</span>
+        <span class="bubble b5">🍱</span>
+        <span class="bubble b6">🍩</span>
+    </div>
+
+    <main class="main-card">
+        <div class="badge">💖 今天吃什麼決策神器 💖</div>
+        
+        <!-- 大標題區塊 -->
+        <h1 id="title" class="title-text">今天吃什麼？</h1>
+
+        <!-- 美食展示區塊 -->
+        <div class="food-display-container">
+            <div id="image-wrapper" class="image-wrapper">
+                <img id="food-image" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80" alt="預設美食圖片">
+                <div id="food-tag" class="food-tag">準備好開吃了嗎？ ✨</div>
+            </div>
+        </div>
+
+        <!-- 按鈕區塊 -->
+        <div class="action-area">
+            <button id="draw-btn" class="btn btn-primary">
+                <span class="btn-icon">✨</span>
+                <span class="btn-text">點我抽籤</span>
+            </button>
+            
+            <a id="map-btn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-map hidden">
+                <span class="btn-icon">📍</span>
+                <span class="btn-text">馬上出發 (Google Map)</span>
+            </a>
+        </div>
+
+        <!-- 自訂選單展開/收合區塊 -->
+        <details class="custom-menu-details">
+            <summary class="custom-menu-summary">⚙️ 查看與管理菜單內容 (<span id="item-count">5</span>)</summary>
+            <div class="menu-manager">
+                <div class="add-item-form">
+                    <input type="text" id="new-food-name" placeholder="輸入美食名稱 (如: 滷肉飯)" maxlength="15">
+                    <button id="add-food-btn" class="btn-add">新增</button>
+                </div>
+                <div class="tags-container" id="tags-container">
+                    <!-- 動態生成標籤 -->
+                </div>
+            </div>
+        </details>
+    </main>
+
+    <footer>
+        <p>✨ 讓吃飯不再選擇困難！ Bon Appétit! 💕</p>
+    </footer>
+
+</body>
+</html>
